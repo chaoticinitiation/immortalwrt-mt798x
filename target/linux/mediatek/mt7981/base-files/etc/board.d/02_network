@@ -29,6 +29,11 @@ mediatek_setup_interfaces()
 	*360,t7*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 eth1" wan
 		;;
+	*philips,hy3000*)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"1:lan" "2:lan" "3:lan" "0:wan" "6u@eth0" "5u@eth1"
+		;;
 	*cetron,ct3003*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 eth1" wan
 		;;
@@ -227,6 +232,17 @@ mediatek_setup_macs()
 	cmcc,rax3000m-emmc)
 		lan_mac=$(mmc_get_mac_binary factory 0x24)
 		wan_mac=$(mmc_get_mac_binary factory 0x2a)
+		label_mac=$wan_mac
+		local wifi_mac="$(macaddr_add $lan_mac 1)"
+		sed -i '/MacAddress=$wifi_mac/d' /etc/wireless/mediatek/mt7981.dbdc.b0.dat
+		echo "MacAddress=$wifi_mac" >> /etc/wireless/mediatek/mt7981.dbdc.b0.dat
+		wifi_mac="$(macaddr_add $lan_mac 2)"
+		sed -i '/MacAddress=$wifi_mac/d' /etc/wireless/mediatek/mt7981.dbdc.b1.dat
+		echo "MacAddress=$wifi_mac" >> /etc/wireless/mediatek/mt7981.dbdc.b1.dat
+		;;
+	philips,hy3000)
+		lan_mac=$(mmc_get_mac_binary factory 0x74)
+		wan_mac=$(macaddr factory $lan_mac 1)
 		label_mac=$wan_mac
 		local wifi_mac="$(macaddr_add $lan_mac 1)"
 		sed -i '/MacAddress=$wifi_mac/d' /etc/wireless/mediatek/mt7981.dbdc.b0.dat

@@ -468,6 +468,18 @@ define Device/cmcc_rax3000m-emmc
 endef
 TARGET_DEVICES += cmcc_rax3000m-emmc
 
+define Device/philips_hy3000
+  DEVICE_VENDOR := Philips
+  DEVICE_MODEL := HY3000
+  DEVICE_DTS := mt7981-philips-hy3000
+  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+  SUPPORTED_DEVICES := philips,hy3000
+  DEVICE_PACKAGES := f2fsck losetup mkf2fs kmod-fs-f2fs kmod-mmc \
+	luci-app-samba4
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += philips_hy3000
+
 define Device/h3c_nx30pro
   DEVICE_VENDOR := H3C
   DEVICE_MODEL := NX30PRO

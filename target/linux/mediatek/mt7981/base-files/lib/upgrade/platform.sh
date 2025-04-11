@@ -210,6 +210,7 @@ platform_do_upgrade() {
 		nand_do_upgrade "$1"
 		;;
 	cmcc,rax3000m-emmc |\
+	philips,hy3000 |\
 	*emmc*)
 		CI_KERNPART="kernel"
 		CI_ROOTPART="rootfs"
@@ -250,6 +251,7 @@ platform_check_image() {
 	*jcg,q30* |\
 	cmcc,a10 |\
 	cmcc,rax3000m* |\
+	philips,hy3000 |\
 	h3c,nx30pro |\
 	*konka,komi-a31* |\
 	nradio,wt9103 |\

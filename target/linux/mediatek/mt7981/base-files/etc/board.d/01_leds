@@ -52,6 +52,10 @@ nradio,wt9103)
 	ucidef_set_led_netdev "5g" "5G" "hc:blue:cmode5" "eth1" "tx rx"
 	ucidef_set_led_netdev "lan" "LAN" "hc:blue:cmode4" "br-lan" "tx rx"
 	;;
+philips,hy3000)
+	ucidef_set_led_default "red" "RED" "red:status" "1"
+	ucidef_set_led_default "blue" "BLUE" "blue:status" "eth1" "link"
+	;;
 esac
 
 board_config_flush
