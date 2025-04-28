@@ -59,6 +59,12 @@ philips,hy3000)
 	ucidef_set_led_default "red" "RED" "red:status" "1"
 	ucidef_set_led_netdev "blue" "BLUE" "blue:status" "eth1" "link"
 	;;
+mediatek,zhao-7981r128*)
+	ucidef_set_led_netdev "lan" "LAN" "LAN" "lan2"
+	ucidef_set_led_netdev "sfp" "SFP" "SFP" "eth1"
+	ucidef_set_led_netdev "wifi5g" "WIFI5G" "WIFI5G" "rax0"
+	ucidef_set_led_netdev "wifi2g" "WIFI2G" "WIFI2G" "ra0"
+     ;;
 esac
 
 board_config_flush

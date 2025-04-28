@@ -207,6 +207,7 @@ platform_do_upgrade() {
 	h3c,nx30pro |\
 	*konka,komi-a31* |\
 	*nokia,ea0326gmp* |\
+	mediatek,zhao-7981r128* |\
 	*snand*)
 		nand_do_upgrade "$1"
 		;;
@@ -258,6 +259,7 @@ platform_check_image() {
 	*konka,komi-a31* |\
 	nradio,wt9103 |\
 	*nokia,ea0326gmp* |\
+	mediatek,zhao-7981r128* |\
 	*snand* |\
 	*emmc*)
 		# tar magic `ustar`
