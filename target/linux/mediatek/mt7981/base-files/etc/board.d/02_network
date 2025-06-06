@@ -72,6 +72,14 @@ mediatek_setup_interfaces()
 	*)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" eth1
 		;;
+	mediatek,zhao-7981r128-dsa)
+		ucidef_set_interfaces_lan_wan "lan1 lan2" eth1
+		;;
+	mediatek,zhao-7981r128-gsw)
+		ucidef_set_interfaces_lan_wan "eth0" "eth1"
+		ucidef_add_switch "switch0" \
+			"1:lan:1" "5:lan:2" "6u@eth0"
+		;;
 	esac
 }
 
@@ -353,6 +361,20 @@ mediatek_setup_macs()
 		wifi_mac="$(macaddr_add $lan_mac 2)"
 		sed -i '/MacAddress=$wifi_mac/d' /etc/wireless/mediatek/mt7981.dbdc.b1.dat
 		echo "MacAddress=$wifi_mac" >> /etc/wireless/mediatek/mt7981.dbdc.b1.dat
+		;;
+	mediatek,zhao-7981r128*)
+		lan_mac=$(mtd_get_mac_binary $part_name 0x04)
+		wan_mac=$(macaddr_add $lan_mac 1)
+		local b0dat="$(l1dat if2dat ra0)"
+		local b1dat="$(l1dat if2dat rax0)"
+		if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
+			local b0mac="$(macaddr_add $lan_mac 2)"
+			echo "MacAddress=$b0mac" >> ${b0dat}
+		fi
+		if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
+			local b1mac="$(macaddr_add $lan_mac 3)"
+			echo "MacAddress=$b1mac" >> ${b1dat}
+		fi
 		;;
 	*)
 		wan_mac=$(mtd_get_mac_binary $part_name $wan_mac_offset)
