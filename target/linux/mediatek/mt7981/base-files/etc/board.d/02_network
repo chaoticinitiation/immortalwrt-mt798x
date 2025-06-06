@@ -221,8 +221,8 @@ mediatek_setup_macs()
 	*kj,kj30-n*)
 		lan_mac=$(mtd_get_mac_binary Factory 0x2A)
 		wan_mac=$(mtd_get_mac_binary Factory 0x24)
-		label_mac=$lan_mac
 		local wifi_mac="$(mtd_get_mac_binary Factory 0x04)"
+		mtk_facrory_write_mac "Factory" 4 $wifi_mac	
 		local wifi_mac="$(macaddr_add $lan_mac 1)"
 		sed -i '/MacAddress=$wifi_mac/d' /etc/wireless/mediatek/mt7981.dbdc.b0.dat
 		echo "MacAddress=$wifi_mac" >> /etc/wireless/mediatek/mt7981.dbdc.b0.dat
